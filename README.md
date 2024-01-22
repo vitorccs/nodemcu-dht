@@ -1,8 +1,12 @@
 # NodeMCU DHT Monitor
-A NodeMCU project which displays temperature and humidity data on a web page
+A NodeMCU project which displays temperature and humidity on a web page
+
+<img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/4df5f647-7a65-4737-a752-f45732b97167" width="800">
 
 ## Description
 The temperature and humidity is measured regularly in a time interval. The HTTP Server uses [asynchronous network](https://github.com/esphome/ESPAsyncWebServer) for better optimization and to prevent issues with sensor libraries.
+
+<img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/5a091b73-08c4-4cc5-bed9-3fd8b0be7057" width="500">
 
 ## Components
 * 01 - NodeMCU v2 board
