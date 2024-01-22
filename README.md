@@ -6,7 +6,7 @@ A NodeMCU project which displays temperature and humidity on a web page
 ## Description
 The temperature and humidity is measured regularly in a time interval. The HTTP Server uses [asynchronous network](https://github.com/esphome/ESPAsyncWebServer) for better optimization and to prevent issues with sensor libraries.
 
-<img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/5a091b73-08c4-4cc5-bed9-3fd8b0be7057" width="500">
+<img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/cd229b49-1690-4b3c-838d-dc9824f74fd7" width="500">
 
 ## Components
 * 01 - NodeMCU v2 board
