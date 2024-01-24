@@ -50,7 +50,8 @@ void setup()
 
   oledHandler.printIp(ip.toString());
 
-  webServer.init(measuresHandler);
+  webServer.init(measuresHandler,
+                 TimeHandlerFn);
 
   blynkHandler.init(BLYNK_AUTH_TOKEN,
                     measuresHandler,

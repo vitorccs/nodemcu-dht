@@ -4,8 +4,6 @@
 #include <Adafruit_SSD1306.h>
 #include <Lambdas.h>
 
-typedef std::function<String()> TimeHandlerFn;
-
 class OledHandler
 {
 public:
