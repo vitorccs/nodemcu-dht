@@ -56,7 +56,8 @@ void setup()
                     measuresHandler,
                     BLYNK_UPDATE);
 
-  ntpTimer.init();
+  ntpTimer.init(NTP_TIME_ZONE,
+                NTP_SERVER_NAME);
 
   delay(DELAY_INIT);
 }

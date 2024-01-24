@@ -3,37 +3,37 @@
 #include <TimeLib.h>
 #include <ESP8266WiFi.h>
 
-// NTP Servers:
-static const char ntpServerName[] = "us.pool.ntp.org";
-// static const char ntpServerName[] = "time.nist.gov";
-// static const char ntpServerName[] = "time-a.timefreq.bldrdoc.gov";
-// static const char ntpServerName[] = "time-b.timefreq.bldrdoc.gov";
-// static const char ntpServerName[] = "time-c.timefreq.bldrdoc.gov";
-
-const int timeZone = 1; // Central European Time
-// const int timeZone = -5;  // Eastern Standard Time (USA)
-// const int timeZone = -4;  // Eastern Daylight Time (USA)
-// const int timeZone = -8;  // Pacific Standard Time (USA)
-// const int timeZone = -7;  // Pacific Daylight Time (USA)
-
 // NTP time is in the first 48 bytes of message
 const int NTP_PACKET_SIZE = 48;
 
 // buffer to hold incoming & outgoing packets
 byte packetBuffer[NTP_PACKET_SIZE];
 
+// the desired time zone
+int NtpTimer::timeZone;
+
+// the desired server name
+String NtpTimer::serverName;
+
+// current attempt 
+unsigned int NtpTimer::currAttempt = 0;
+
+// max quantity of attempts 
+unsigned int NtpTimer::maxAttempts = 5;
+
 // local port to listen for UDP packets
-unsigned int localPort = 8888;
-unsigned int currAttempt = 0;
-unsigned int maxAttempts = 5;
+unsigned int NtpTimer::localPort = 8888;
+
+WiFiUDP NtpTimer::Udp;
 
 time_t getNtpTime();
 
-WiFiUDP Udp;
 
-
-void NtpTimer::init()
+void NtpTimer::init(int zone, String server)
 {
+    timeZone = zone;
+    serverName = server;
+
     Udp.begin(localPort);
 
     setSyncProvider(getNtpTime);
@@ -53,8 +53,8 @@ time_t NtpTimer::getNtpTime()
     Serial.println("Transmit NTP Request");
 
     // get a random server from the pool
-    WiFi.hostByName(ntpServerName, ntpServerIP);
-    Serial.print(ntpServerName);
+    WiFi.hostByName(serverName.c_str(), ntpServerIP);
+    Serial.print(serverName);
     Serial.print(": ");
     Serial.println(ntpServerIP);
     sendNTPpacket(ntpServerIP);
@@ -67,7 +67,7 @@ time_t NtpTimer::getNtpTime()
         
         if (size >= NTP_PACKET_SIZE)
         {
-            Serial.println("Receive NTP Response");
+            Serial.println("NTP - Success");
             Udp.read(packetBuffer, NTP_PACKET_SIZE); // read packet into the buffer
             unsigned long secsSince1900;
             // convert four bytes starting at location 40 to a long integer
@@ -80,12 +80,12 @@ time_t NtpTimer::getNtpTime()
     }
 
     if (currAttempt < maxAttempts) {
-        Serial.println("NTP retrying...");
+        Serial.println("NTP - Retrying...");
 
         return getNtpTime();
     }
 
-    Serial.println("No NTP Response :-(");
+    Serial.println("NTP - Failed");
 
     return 0; // return 0 if unable to get the time
 }

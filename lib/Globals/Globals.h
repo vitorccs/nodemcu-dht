@@ -20,3 +20,15 @@
 // DELAYS
 #define DELAY_INIT 5000
 #define DELAY_REFRESH 1000
+
+// NTP
+#define NTP_TIME_ZONE 1 // Central European Time
+//#define NTP_TIME_ZONE -5  // Eastern Standard Time (USA)
+//#define NTP_TIME_ZONE -4  // Eastern Daylight Time (USA)
+//#define NTP_TIME_ZONE -8  // Pacific Standard Time (USA)
+//#define NTP_TIME_ZONE -7  // Pacific Daylight Time (USA)
+#define NTP_SERVER_NAME "us.pool.ntp.org"
+//#define NTP_SERVER_NAME "time.nist.gov"
+//#define NTP_SERVER_NAME "time-a.timefreq.bldrdoc.gov"
+//#define NTP_SERVER_NAME "time-b.timefreq.bldrdoc.gov"
+//#define NTP_SERVER_NAME "time-c.timefreq.bldrdoc.gov"
