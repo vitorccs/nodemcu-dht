@@ -1,12 +1,14 @@
 #include <WebServer.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <Measures.h>
+#include <Lambdas.h>
 
 WebServer::WebServer(): webServer(80)
 {
 }
 
-void WebServer::init(MeasuresHandlerFunction measuresHandler)
+void WebServer::init(MeasuresHandlerFn measuresHandler)
 {
     ArRequestHandlerFunction onRequest = [measuresHandler, this](AsyncWebServerRequest *request)
     {

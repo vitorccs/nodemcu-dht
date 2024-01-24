@@ -2,8 +2,8 @@
 #include <ESP8266WiFi.h>
 #include <WifiHandler.h>
 
-void WifiHandler::connect(const char *ssid,
-                          const char *pwd)
+IPAddress WifiHandler::connect(const char *ssid,
+                               const char *pwd)
 {
     WiFi.begin(ssid, pwd);
 
@@ -13,20 +13,43 @@ void WifiHandler::connect(const char *ssid,
         Serial.print(".");
     }
 
-    debug(WiFi, ssid, false);
+    const IPAddress ip = WiFi.localIP();
+
+    debug(ssid, ip, false);
+
+    return ip;
 }
 
-void WifiHandler::apMode(const char *ssid,
-                         const char *pwd,
-                         int channel)
+IPAddress WifiHandler::apMode(const char *ssid,
+                              const char *pwd,
+                              int channel)
 {
     WiFi.softAP(ssid, pwd, channel);
 
-    debug(WiFi, ssid, true);
+    const IPAddress ip = WiFi.softAPIP();
+
+    debug(ssid, ip, true);
+
+    return ip;
 }
 
-void WifiHandler::debug(ESP8266WiFiClass WiFi,
-                        const char *ssid,
+IPAddress WifiHandler::init(const char *ssid,
+                            const char *pwd,
+                            bool isApMode,
+                            int channel)
+{
+    if (isApMode)
+    {
+        return apMode(ssid, pwd, channel);
+    }
+    else
+    {
+        return connect(ssid, pwd);
+    }
+}
+
+void WifiHandler::debug(const char *ssid,
+                        IPAddress ip,
                         bool apMode)
 {
     Serial.println("");
@@ -42,13 +65,5 @@ void WifiHandler::debug(ESP8266WiFiClass WiFi,
 
     Serial.println(ssid);
     Serial.print("http://");
-
-    if (apMode)
-    {
-        Serial.println(WiFi.softAPIP());
-    }
-    else
-    {
-        Serial.println(WiFi.localIP());
-    }
+    Serial.println(ip);
 }
