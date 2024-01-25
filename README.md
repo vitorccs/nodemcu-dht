@@ -7,6 +7,7 @@ A NodeMCU project which collects temperature and humidity from DHT sensors and s
 This projects requires WiFi connection with an internet link. 
 Additionaly, the board also acts a Web server and displays temperature and humidity in both HTML and JSON format (/api).
 Note: The time is retrieved from a NTP service. 
+
 <img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/d805e4df-9b90-4da3-99d9-e11f056354d8" width="700">
 
 ## Components
