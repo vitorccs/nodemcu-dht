@@ -11,16 +11,51 @@ void BlynkHandler::init(const char *authToken,
 {
     Blynk.config(authToken);
 
-    blynkTimer.setInterval(timer, [measuresHandler]() {
+    updaterTimer.setInterval(timer, [measuresHandler]() {
         Measures measures = measuresHandler();
 
         Blynk.virtualWrite(V0, measures.temperature);
-        Blynk.virtualWrite(V1, measures.humidity);
+        Blynk.virtualWrite(V1, measures.humidity); 
+    });
+}
+
+void BlynkHandler::temperatureAlert(MeasuresHandlerFn measuresHandler,
+                                    float temperature,
+                                    String eventName,
+                                    String message,
+                                    long timer)
+{
+    temperatureTimer.setInterval(timer, [measuresHandler, temperature, eventName, message]() {
+        Measures measures = measuresHandler();
+
+        if (measures.temperature > temperature) {
+            Blynk.logEvent(eventName, message);
+            Serial.println("Alert: " + eventName);
+        }
+    });
+}
+
+void BlynkHandler::humidityAlert(MeasuresHandlerFn measuresHandler,
+                                 float humidity,
+                                 String eventName,
+                                 String message,
+                                 long timer)
+{
+    humidityTimer.setInterval(timer, [measuresHandler, humidity, eventName, message]() {
+        Measures measures = measuresHandler();
+
+        if (measures.humidity > humidity)
+    {
+        Blynk.logEvent(eventName, message);
+        Serial.println("Alert: " + eventName);
+    }
     });
 }
 
 void BlynkHandler::run()
 {
     Blynk.run();
-    blynkTimer.run();
+    updaterTimer.run();
+    temperatureTimer.run();
+    humidityTimer.run();
 }

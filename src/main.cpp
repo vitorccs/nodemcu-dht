@@ -57,6 +57,16 @@ void setup()
                     measuresHandler,
                     BLYNK_UPDATE);
 
+  blynkHandler.temperatureAlert(measuresHandler,
+                                25.00,
+                                "high_temperature",
+                                "Temperatura acima de 25C");
+
+  blynkHandler.humidityAlert(measuresHandler,
+                             90.00,
+                             "high_humidity",
+                             "Umidade acima de 90%");
+
   ntpTimer.init(NTP_TIME_ZONE,
                 NTP_SERVER_NAME);
 

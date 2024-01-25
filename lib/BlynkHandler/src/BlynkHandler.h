@@ -11,9 +11,21 @@ public:
               MeasuresHandlerFn measuresHandler,
               long timer = 5000L);
     void run();
+    void temperatureAlert(MeasuresHandlerFn measuresHandler,
+                          float temperature,
+                          String eventName,
+                          String message,
+                          long timer = 5000L);
+    void humidityAlert(MeasuresHandlerFn measuresHandler,
+                       float humidity,
+                       String eventName,
+                       String message,
+                       long timer = 5000L);
 
 private:
-    BlynkTimer blynkTimer;
+    BlynkTimer updaterTimer;
+    BlynkTimer temperatureTimer;
+    BlynkTimer humidityTimer;
 };
 
 #endif
