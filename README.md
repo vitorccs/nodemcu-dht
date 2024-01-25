@@ -1,7 +1,15 @@
 # NodeMCU DHT Monitor
 A NodeMCU project which collects temperature and humidity from DHT sensors and send them to Blynk IOT service.
 
+### Web server (http://192.168.0.1 - your LAN address)
 <img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/0989e5f9-bb6d-4c2a-a4c5-92a22b60c720" width="700">
+
+### Web server (http://192.168.0.1/api - your LAN address)
+<img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/7c8b8e6a-5581-4217-a500-0537d35a7185" width="300">
+
+### Blynk Dashboard
+<img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/136471e9-8338-46af-8666-9a470d22a7bf" width="300">
+
 
 ## Description
 This projects requires WiFi connection with an internet link. 
