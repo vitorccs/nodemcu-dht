@@ -8,6 +8,8 @@ This projects requires WiFi connection with an internet link.
 Additionaly, the board also acts a Web server and displays temperature and humidity in both HTML and JSON format (/api).
 Note: The time is retrieved from a NTP service. 
 
+<img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/bb293e60-6506-4d28-8bb6-851a7543ee0a" width="700">
+
 <img src="https://github.com/vitorccs/nodemcu-dht/assets/9891961/d805e4df-9b90-4da3-99d9-e11f056354d8" width="700">
 
 ## Components
@@ -50,3 +52,7 @@ In the folder `lib\Globals`, make a copy of file `Globals.sample` to `Globals.h`
 #define NTP_TIME_ZONE 1 // Central European Time
 #define NTP_SERVER_NAME "us.pool.ntp.org"
 ```
+
+## Fritzing file
+The electronic schematic was created in the [Fritzing](https://fritzing.org/) software and can be downloaded at
+[NodeMcuDht.zip](https://github.com/vitorccs/nodemcu-dht/files/14054295/NodeMcuDht.zip)
