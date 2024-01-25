@@ -5,8 +5,9 @@
 class WifiHandler
 {
 public:
-    void connect(const char *ssid, const char *pwd);
-    void apMode(const char *ssid, const char *pwd, int channel = 1);
-    void debug(ESP8266WiFiClass WiFi, const char *ssid, bool apMode = false);
+    IPAddress connect(const char *ssid, const char *pwd);
+    IPAddress apMode(const char *ssid, const char *pwd, int channel = 1);
+    IPAddress init(const char *ssid, const char *pwd, bool isApMode, int channel = 1);
+    void debug(const char *ssid, IPAddress ip, bool apMode);
 };
 #endif

@@ -10,8 +10,8 @@ public:
     DhtSensors(uint8_t pin, uint8_t type);
     void init();
     void updateSensors();
-    float temperature;
-    float humidity;
+    float temperature = 0;
+    float humidity = 0;
     uint32_t delayMS;
 private:
     DHT_Unified dht;

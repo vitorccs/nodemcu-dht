@@ -1,31 +1,26 @@
 #include <Arduino.h>
+#include <Globals.h>
 #include <DHT.h>
 #include <DhtSensors.h>
 #include <WifiHandler.h>
+#include <OledHandler.h>
+#include <BlynkHandler.h>
 #include <WebServer.h>
-
-#define WIFI_SSID "MY_SSDI"
-#define WIFI_PWD "MY_PASSWORD"
-#define DHTPIN D5
-#define DHTTYPE DHT11
-#define WIFI_AP_MODE false // Access Point mode (no internet connection)
-#define UPDATE_MS 5000
+#include <Lambdas.h>
+#include <NtpTimer.h>
 
 WifiHandler wifiHandler;
 DhtSensors dhtSensor(DHTPIN, DHTTYPE);
+OledHandler oledHandler(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_ADDRESS);
 WebServer webServer;
 uint32_t delayMS;
 Measures measures;
-
-void initWifi();
+BlynkHandler blynkHandler;
+NtpTimer ntpTimer;
 
 void setup()
 {
-  Serial.begin(115200);
-
-  dhtSensor.init();
-
-  MeasuresHandlerFunction measuresHandler = []()
+  MeasuresHandlerFn measuresHandler = []()
   {
     Measures measures;
     measures.humidity = dhtSensor.humidity;
@@ -34,26 +29,47 @@ void setup()
     return measures;
   };
 
-  initWifi();
+  TimeHandlerFn TimeHandlerFn = []()
+  {
+    char buffer[20];
+    sprintf(buffer, "%02d/%02d/%02d %02d:%02d:%02d", day(), month(), year(), hour(), minute(), second());
+    return String(buffer);
+  };
 
-  webServer.init(measuresHandler);
+  Serial.begin(115200);
+
+  oledHandler.init(measuresHandler,
+                   TimeHandlerFn);
+
+  oledHandler.printLoading();
+
+  dhtSensor.init();
+
+  const IPAddress ip = wifiHandler.connect(WIFI_SSID,
+                                           WIFI_PWD);
+
+  oledHandler.printIp(ip.toString());
+
+  webServer.init(measuresHandler,
+                 TimeHandlerFn);
+
+  blynkHandler.init(BLYNK_AUTH_TOKEN,
+                    measuresHandler,
+                    BLYNK_UPDATE);
+
+  ntpTimer.init(NTP_TIME_ZONE,
+                NTP_SERVER_NAME);
+
+  delay(DELAY_INIT);
 }
 
 void loop()
 {
+  delay(DELAY_REFRESH);
+
   dhtSensor.updateSensors();
 
-  delay(UPDATE_MS);
-}
+  blynkHandler.run();
 
-void initWifi()
-{
-  if (WIFI_AP_MODE)
-  {
-    wifiHandler.apMode(WIFI_SSID, WIFI_PWD);
-  }
-  else
-  {
-    wifiHandler.connect(WIFI_SSID, WIFI_PWD);
-  }
+  oledHandler.printMeasures();
 }
