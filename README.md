@@ -23,7 +23,7 @@ Note: The time is retrieved from a NTP service.
 ## Components
 * 01 - NodeMCU v2 board
 * 01 - DHT-11/DHT-22 sensor
-* 02 - 1K Ω Resistor - acts as a pull-up resistor
+* 01 - 10K Ω Resistor - acts as a pull-up resistor
 * 01 - Adafruit 128x64 OLED display (SSD1306)
 
 ## About PlatformIO IDE
